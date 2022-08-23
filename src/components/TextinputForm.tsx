@@ -1,3 +1,9 @@
+/**
+ * Form-component.
+ *
+ * @author Anders Jonsson
+ * @version 1.0.0
+ */
 import React, { FormEvent, useRef } from 'react'
 
 import classes from './TextinputForm.module.css'
@@ -16,7 +22,11 @@ type Props = {
 const TextinputForm = ({ onSubmit, isActive }: Props) => {
   const textInput = useRef<HTMLInputElement>(null)
 
-  // Prevent default behaviour on submit, validate and trigger onSubmit-function.
+  /**
+   * Prevent default behaviour on submit, validate and trigger onSubmit-function.
+   *
+   * @param {FormEvent} event - Event-object.
+   */
   const submitHandler = (event: FormEvent) => {
     event.preventDefault()
 

@@ -1,6 +1,8 @@
 /**
  * Main module for the application.
  *
+ * @author Anders Jonsson
+ * @version 1.0.0
  */
 import React, { useState } from 'react'
 import Header from './components/layout/Header'

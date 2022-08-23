@@ -1,6 +1,8 @@
 /**
  * Entrypoint for the application.
  *
+ * @author Anders Jonsson
+ * @version 1.0.0
  */
 import React from 'react'
 import ReactDOM from 'react-dom/client'

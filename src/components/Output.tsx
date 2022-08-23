@@ -1,6 +1,8 @@
 /**
  * Component outputting text and speech.
  *
+ * @author Anders Jonsson
+ * @version 1.0.0
  */
 import React from 'react'
 
