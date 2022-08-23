@@ -21,7 +21,7 @@ function App() {
   // NOTE: Add jsDoc.
   const submitHandler = (input: string) => {
     setQuestionMode(false)
-    setOutputText(`Hello ${input}!`)
+    setOutputText(`Hi ${input}, nice to meet you!`)
   }
   return (
     <div className={classes.wrapper}>
