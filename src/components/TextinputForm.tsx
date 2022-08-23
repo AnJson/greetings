@@ -5,6 +5,7 @@ import classes from './TextinputForm.module.css'
 // Define prop-types.
 type Props = {
   onSubmit: (input: string) => void
+  isActive: boolean
 } 
 
 /**
@@ -12,7 +13,7 @@ type Props = {
  *
  * @returns {JSX} - JSX.
  */
-const TextinputForm = ({ onSubmit }: Props) => {
+const TextinputForm = ({ onSubmit, isActive }: Props) => {
   const textInput = useRef<HTMLInputElement>(null)
 
   // Prevent default behaviour on submit, validate and trigger onSubmit-function.
@@ -35,8 +36,8 @@ const TextinputForm = ({ onSubmit }: Props) => {
   return (
     <div className={classes.wrapper}>
       <form className={classes.form} onSubmit={submitHandler}>
-        <input ref={textInput} className={classes['text-input']} type='text' />
-        <button className={classes['submit-button']}>Send</button>
+        <input ref={textInput} className={classes['text-input']} type='text' readOnly={!isActive} />
+        <button className={classes['submit-button']} disabled={!isActive}>Send</button>
       </form>
     </div>
   )

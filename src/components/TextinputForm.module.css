@@ -26,6 +26,10 @@
   outline: none;
 }
 
+.text-input:read-only {
+  background-color: rgba(255, 255, 255, 0.438);
+}
+
 .submit-button {
   border: none;
   background-color: rgb(145, 243, 99);
@@ -36,6 +40,12 @@
   padding: 1rem 2rem;
   border-radius: 2rem;
   cursor: pointer;
+}
+
+.submit-button:disabled {
+  background-color: rgba(145, 243, 99, 0.438);
+  color: rgba(32, 39, 28, 0.438);
+  cursor: auto;
 }
 
 @media screen and (min-width: 768px) {
