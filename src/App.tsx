@@ -14,17 +14,18 @@ import classes from './App.module.css'
  */
 function App() {
   const [questionMode, setQuestionMode] = useState(true)
+  const [outputText, setOutputText] = useState('What is your name?')
 
   // NOTE: Add jsDoc.
   const submitHandler = (input: string) => {
-    console.log(input)
     setQuestionMode(false)
+    setOutputText(`Hello ${input}!`)
   }
   return (
     <div className={classes.wrapper}>
       <Header />
       <div className={classes.main}>
-        <Output text='What is your name?' />
+        <Output text={outputText} />
         <TextinputForm onSubmit={submitHandler} isActive={questionMode} />
       </div>
     </div>
