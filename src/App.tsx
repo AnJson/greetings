@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/**
+ * Main module for the application.
+ *
+ */
+import React from 'react'
+import Header from './components/layout/Header'
+import TextinputForm from './components/TextinputForm'
+
+import classes from './App.module.css'
+import Output from './components/Output'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={classes.wrapper}>
+      <Header />
+      <div className={classes.main}>
+        <Output text='What is your name?' />
+        <TextinputForm />
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

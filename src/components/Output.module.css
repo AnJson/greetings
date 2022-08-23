@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.output-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-size: 2rem;
+}
