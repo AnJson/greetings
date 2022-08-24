@@ -4,51 +4,50 @@
  * @author Anders Jonsson
  * @version 1.0.0
  */
+import { useEffect, useState } from 'react'
 
 /**
- * The interface of the Intersection Observer option-object.
+ * The interface of the return-object of the hook.
  *
  */
- interface UtterOptions {
-  lang: string
-  pitch: number
-  rate: number
-  voice: string
-  volume: number
-}
-
-/**
- * The interface of the Intersection Observer option-object.
- *
- */
- interface HookReturn {
+ interface SpeechSynthesisHookReturn {
   synth: SpeechSynthesis
-  voices: SpeechSynthesisVoice[]
-  createUtter: any // NOTE: fix type.
+  voices: SpeechSynthesisVoice[] | null
+  createUtter: (text: string, onError?: () => void) => SpeechSynthesisUtterance
 }
 
 /**
  * Custom hook to use the SpeechSynthesis Web API.
  * 
- * @param {function} voicesChangedHandler - Optional handler for voiceschanged-event.
- * @returns {HookReturn} - Object containing SpeechSynthesis instace, array of available voices and function to create utter.
+ * @returns {SpeechSynthesisHookReturn} - Object containing SpeechSynthesis instace, array of available voices and function to create utter.
  */
-const useSpeechSynthesis: () => HookReturn = (voicesChangedHandler?: () => void) => {
-  const synth: SpeechSynthesis = window.speechSynthesis
-  const voices: SpeechSynthesisVoice[] = synth.getVoices()
+const useSpeechSynthesis: () => SpeechSynthesisHookReturn = () => {
+  const [synth] = useState<SpeechSynthesis>(window.speechSynthesis)
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[] | null>(null)
+
+  // Update voices when the list has changed.
+  useEffect(() => {
+    setVoices(synth.getVoices())
+    synth.onvoiceschanged = () => {
+      setVoices(synth.getVoices())
+    }
+  }, [synth])
 
   /**
    * Create utter that can be added to the speechsynthesis-queu and played.
    *
    * @param {string} text - Text to speak.
-   * @param {() => void} onError - Handler on error.
-   * @param {UtterOptions} [options] - Optional options-object that can set the language, pitch, speed(rate), voice and volume to be used when playing.
+   * @param {UtterOptions} options - Optional options-object that can set the language, pitch, speed(rate), voice and volume to be used when playing.
+   * @param {function} onError - Handler on error.
    * @return {*} 
    */
-  const createUtter = (text: string, onError?: () => void, options?: UtterOptions) => {
-    const utter = new SpeechSynthesisUtterance(text)
+  const createUtter: (text: string, onError?: () => void) => SpeechSynthesisUtterance = (text: string, onError?: () => void) => {
+    const utter: SpeechSynthesisUtterance = new SpeechSynthesisUtterance(text)
 
-    // NOTE: Add options.
+    // Add errorhandler if sent as argument.
+    if (onError) {
+      utter.onerror = onError
+    }
 
     return utter
   }
