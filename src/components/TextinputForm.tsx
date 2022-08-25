@@ -12,7 +12,7 @@ import classes from './TextinputForm.module.css'
 type Props = {
   onSubmit: (input: string) => void
   isActive: boolean
-} 
+}
 
 /**
  * Form-component for submitting answers.

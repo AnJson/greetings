@@ -19,6 +19,7 @@ import useSpeechSynthesis from './hooks/useSpeechSynthesis'
  */
 const App = () => {
   const [questionMode, setQuestionMode] = useState<boolean>(true)
+  const [isDone, setIsDone] = useState<boolean>(false)
   const [outputText, setOutputText] = useState<string>('Hi, whats your name?')
   const [name, setName] = useState<string>('')
   const [language, setLanguage] = useState<string>('en-US')
@@ -50,7 +51,10 @@ const App = () => {
         setOutputText(`Hoi ${name}, leuk je te ontmoeten!`)
       }
     } else if (!questionMode && language === 'nl-NL') {
-      console.log('done!') // NOTE: show restart.
+      // TODO: Fix the triggering of another speak.
+      utter.onend = () => {
+        setIsDone(true)
+      }
     }
 
     setTimeout(() => {
@@ -69,9 +73,21 @@ const App = () => {
     setOutputText(`Hi ${name}, nice to meet you!`)
   }
 
+  /**
+   * Resethandler applikation.
+   *
+   */
+   const resetHandler: () => void = () => {
+    setIsDone(false)
+    setQuestionMode(true)
+    setLanguage('en-EN')
+    setName('')
+    setOutputText('Hi, whats your name?')
+  }
+
   return (
     <div className={classes.wrapper}>
-      <Header />
+      <Header isDone={isDone} onReset={resetHandler} />
       <div className={classes.main}>
         <Output text={outputText} />
         <TextinputForm onSubmit={submitHandler} isActive={questionMode} />
