@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
  */
  interface SpeechSynthesisHookReturn {
   synth: SpeechSynthesis
-  voices: SpeechSynthesisVoice[] | null
+  voices: SpeechSynthesisVoice[]
   createUtter: (text: string, onError?: () => void) => SpeechSynthesisUtterance
 }
 
@@ -23,11 +23,10 @@ import { useEffect, useState } from 'react'
  */
 const useSpeechSynthesis: () => SpeechSynthesisHookReturn = () => {
   const [synth] = useState<SpeechSynthesis>(window.speechSynthesis)
-  const [voices, setVoices] = useState<SpeechSynthesisVoice[] | null>(null)
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>(window.speechSynthesis.getVoices())
 
-  // Update voices when the list has changed.
+  // Add eventlistener to update voices when the list has changed.
   useEffect(() => {
-    setVoices(synth.getVoices())
     synth.onvoiceschanged = () => {
       setVoices(synth.getVoices())
     }
