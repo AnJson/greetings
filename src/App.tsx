@@ -14,8 +14,10 @@ import useSpeechSynthesis from './hooks/useSpeechSynthesis'
 
 /**
  * Main component for the application.
+ * 
+ * @returns {JSX} - JSX.
  */
-function App() {
+const App = () => {
   const [questionMode, setQuestionMode] = useState(true)
   const [outputText, setOutputText] = useState('')
   const { synth, createUtter } = useSpeechSynthesis()
