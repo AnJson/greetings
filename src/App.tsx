@@ -18,41 +18,57 @@ import useSpeechSynthesis from './hooks/useSpeechSynthesis'
  * @returns {JSX} - JSX.
  */
 const App = () => {
-  const [questionMode, setQuestionMode] = useState(true)
-  const [outputText, setOutputText] = useState('')
+  const [questionMode, setQuestionMode] = useState<boolean>(true)
+  const [outputText, setOutputText] = useState<string>('Hi, whats your name?')
+  const [name, setName] = useState<string>('')
+  const [language, setLanguage] = useState<string>('en-US')
   const { synth, createUtter } = useSpeechSynthesis()
 
-  // Trigger initial speak.
-  useEffect(() => {
-    setOutputText('Hi, what is your name?')
-  }, [])
-
-  // Trigger speech when outputText is changed.
+  // Trigger speak.
   useEffect(() => {
     const utter = createUtter(outputText)
-    utter.lang = 'es-ES' // NOTE: set dynamically to users choice.
+    utter.lang = language
 
-    // If this is the answer, enable form when speech is done.
-    if (!questionMode) {
+    if (!questionMode && language === 'en-US') {
       utter.onend = () => {
-        // NOTE: show resetbutton?
+        setLanguage('it-IT')
+        setOutputText(`Ciao ${name}, piacere di conoscerti!`)
       }
+    } else if (!questionMode && language === 'it-IT') {
+      utter.onend = () => {
+        setLanguage('es-ES')
+        setOutputText(`Hola ${name}, encantado de conocerte!`)
+      }
+    } else if (!questionMode && language === 'es-ES') {
+      utter.onend = () => {
+        setLanguage('fr-FR')
+        setOutputText(`Salut ${name}, ravi de te rencontrer !`)
+      }
+    } else if (!questionMode && language === 'fr-FR') {
+      utter.onend = () => {
+        setLanguage('nl-NL')
+        setOutputText(`Hoi ${name}, leuk je te ontmoeten!`)
+      }
+    } else if (!questionMode && language === 'nl-NL') {
+      console.log('done!') // NOTE: show restart.
     }
 
     setTimeout(() => {
       synth.speak(utter)
-    }, 200)
-  }, [createUtter, outputText, synth])
+    }, 500)
+  }, [createUtter, synth, outputText, language, name, questionMode])
 
   /**
    * Submithandler to disable form and display greeting-message.
    *
-   * @param {string} input - Input-text from the form.
+   * @param {string} name - Input-text from the form.
    */
-  const submitHandler = (input: string) => {
+  const submitHandler: (name: string) => void = (name) => {
+    setName(name)
     setQuestionMode(false)
-    setOutputText(`Hi ${input}, nice to meet you!`)
+    setOutputText(`Hi ${name}, nice to meet you!`)
   }
+
   return (
     <div className={classes.wrapper}>
       <Header />
