@@ -51,16 +51,17 @@ const App = () => {
         setOutputText(`Hoi ${name}, leuk je te ontmoeten!`)
       }
     } else if (!questionMode && language === 'nl-NL') {
-      // TODO: Fix the triggering of another speak.
       utter.onend = () => {
         setIsDone(true)
       }
     }
 
-    setTimeout(() => {
-      synth.speak(utter)
-    }, 500)
-  }, [createUtter, synth, outputText, language, name, questionMode])
+    if (!isDone) {
+      setTimeout(() => {
+        synth.speak(utter)
+      }, 500)
+    }
+  }, [createUtter, synth, outputText, language, name, questionMode, isDone])
 
   /**
    * Submithandler to disable form and display greeting-message.
@@ -80,7 +81,7 @@ const App = () => {
    const resetHandler: () => void = () => {
     setIsDone(false)
     setQuestionMode(true)
-    setLanguage('en-EN')
+    setLanguage('en-US')
     setName('')
     setOutputText('Hi, whats your name?')
   }
