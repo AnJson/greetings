@@ -33,7 +33,7 @@
 
 .submit-button {
   border: none;
-  background-color: rgb(145, 243, 99);
+  background-color: rgb(255, 255, 255);
   color: rgb(32, 39, 28);
   font-weight: 600;
   font-size: 1.5rem;
@@ -45,7 +45,7 @@
 }
 
 .submit-button:disabled {
-  background-color: rgba(145, 243, 99, 0.438);
+  background-color: rgba(255, 255, 255, 0.438);
   color: rgba(32, 39, 28, 0.438);
   cursor: auto;
 }

@@ -19,6 +19,7 @@ import useSpeechSynthesis from './hooks/useSpeechSynthesis'
  */
 const App = () => {
   const [questionMode, setQuestionMode] = useState<boolean>(true)
+  const [isDone, setIsDone] = useState<boolean>(false)
   const [outputText, setOutputText] = useState<string>('Hi, whats your name?')
   const [name, setName] = useState<string>('')
   const [language, setLanguage] = useState<string>('en-US')
@@ -42,7 +43,7 @@ const App = () => {
     } else if (!questionMode && language === 'es-ES') {
       utter.onend = () => {
         setLanguage('fr-FR')
-        setOutputText(`Salut ${name}, ravi de te rencontrer !`)
+        setOutputText(`Salut ${name}, ravi de te rencontrer!`)
       }
     } else if (!questionMode && language === 'fr-FR') {
       utter.onend = () => {
@@ -50,13 +51,17 @@ const App = () => {
         setOutputText(`Hoi ${name}, leuk je te ontmoeten!`)
       }
     } else if (!questionMode && language === 'nl-NL') {
-      console.log('done!') // NOTE: show restart.
+      utter.onend = () => {
+        setIsDone(true)
+      }
     }
 
-    setTimeout(() => {
-      synth.speak(utter)
-    }, 500)
-  }, [createUtter, synth, outputText, language, name, questionMode])
+    if (!isDone) {
+      setTimeout(() => {
+        synth.speak(utter)
+      }, 500)
+    }
+  }, [createUtter, synth, outputText, language, name, questionMode, isDone])
 
   /**
    * Submithandler to disable form and display greeting-message.
@@ -69,9 +74,21 @@ const App = () => {
     setOutputText(`Hi ${name}, nice to meet you!`)
   }
 
+  /**
+   * Resethandler applikation.
+   *
+   */
+   const resetHandler: () => void = () => {
+    setIsDone(false)
+    setQuestionMode(true)
+    setLanguage('en-US')
+    setName('')
+    setOutputText('Hi, whats your name?')
+  }
+
   return (
-    <div className={classes.wrapper}>
-      <Header />
+    <div className={`${classes.wrapper} ${language === 'en-US' ? classes.blue : null} ${language === 'it-IT' ? classes.green : null} ${language === 'es-ES' ? classes.red : null} ${language === 'fr-FR' ? classes.blue : null} ${language === 'nl-NL' ? classes.orange : null}`}>
+      <Header isDone={isDone} onReset={resetHandler} />
       <div className={classes.main}>
         <Output text={outputText} />
         <TextinputForm onSubmit={submitHandler} isActive={questionMode} />
