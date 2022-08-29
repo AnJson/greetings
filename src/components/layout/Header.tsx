@@ -23,7 +23,7 @@ type Props = {
 const Header = ({isDone, onReset}: Props) => {
   return (
     <header className={classes.header}>
-      { isDone && <button onClick={onReset}>Reset</button> }
+      { isDone && <button className={classes.button} onClick={onReset}>Reset</button> }
     </header>
   )
 }
