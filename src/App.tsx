@@ -43,7 +43,7 @@ const App = () => {
     } else if (!questionMode && language === 'es-ES') {
       utter.onend = () => {
         setLanguage('fr-FR')
-        setOutputText(`Salut ${name}, ravi de te rencontrer !`)
+        setOutputText(`Salut ${name}, ravi de te rencontrer!`)
       }
     } else if (!questionMode && language === 'fr-FR') {
       utter.onend = () => {
@@ -87,7 +87,7 @@ const App = () => {
   }
 
   return (
-    <div className={classes.wrapper}>
+    <div className={`${classes.wrapper} ${language === 'en-US' ? classes.blue : null} ${language === 'it-IT' ? classes.green : null} ${language === 'es-ES' ? classes.red : null} ${language === 'fr-FR' ? classes.blue : null} ${language === 'nl-NL' ? classes.orange : null}`}>
       <Header isDone={isDone} onReset={resetHandler} />
       <div className={classes.main}>
         <Output text={outputText} />
